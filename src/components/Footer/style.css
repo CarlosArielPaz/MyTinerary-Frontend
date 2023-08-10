@@ -1,0 +1,27 @@
+footer {
+  border-top: 3px solid #f7f7f7;
+}
+
+footer > div {
+  padding-top: 2.5em;
+}
+
+footer > div > div > a .footer-icon {
+  padding: 0.5em 0.56em;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  color: var(--bs-cyan);
+  font-size: 2em;
+  transition: all 0.5s;
+}
+
+footer > div > div > a .footer-icon:hover {
+  border: 2px solid var(--bs-cyan);
+  background-color: var(--bs-cyan);
+  color: white;
+}
+
+footer > div > div > span {
+  color: #aaa;
+  font-size: 1.15em;
+}
