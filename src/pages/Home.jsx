@@ -1,6 +1,6 @@
 import React from 'react';
-import Welcome from '../components/Welcome';
-import Carrousel from '../components/Carrousel';
+import Welcome from '../components/home/Welcome';
+import Carrousel from '../components/home/Carrousel';
 
 export default function Home() {
   return (

@@ -19,11 +19,7 @@ export default function Carrousel() {
 
   let [index, setIndex] = useState(0);
 
-  console.log('Index: ' + index);
-
   useEffect(() => {
-    console.log('useEffect');
-
     setTimeout(() => {
       setIndex(index == 8 ? 0 : index + 4);
     }, 3000);
