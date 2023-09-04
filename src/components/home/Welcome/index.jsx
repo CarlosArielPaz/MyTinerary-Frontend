@@ -13,10 +13,10 @@ export default function Welcome() {
           </button>
         </div>
         <div className="col-4">
-          <img className="img-fluid rounded" src="/welcome/welcome.jpg" alt="welcome" />
+          <img className="img-fluid rounded shadow" src="/welcome/welcome.jpg" alt="welcome" />
         </div>
       </div>
-      <div className="d-flex justify-content-center">
+      <div className="mt-5 d-flex justify-content-center">
         <Anchor to="/cities">
           <button className="px-4 py-2 btn btn-primary fs-5" type="button">
             <i class="bi bi-magic"></i> Let's visit more magical cities

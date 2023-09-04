@@ -3,8 +3,10 @@ import Welcome from '../components/home/Welcome';
 import Carrousel from '../components/home/Carrousel';
 
 export default function Home() {
+  document.title = 'MyTinerary';
+
   return (
-    <div className='my-5'>
+    <div className="my-5">
       <Welcome />
       <Carrousel />
     </div>

@@ -10,6 +10,7 @@ export default function Card({ city }) {
           <div className="card-body">
             <h5 className="card-title fw-bold">{city.name}</h5>
             <h6 className="card-title">{city.country}</h6>
+            <h6 className="pt-2 card-title text-black-50">{city.itineraries.length > 0 ? 'View itineraries' : ''}</h6>
           </div>
         </div>
       </Anchor>

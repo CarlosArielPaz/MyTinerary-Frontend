@@ -17,41 +17,52 @@ export default function Carrousel() {
     { title: 'Washington', src: '/welcome//carrousel/washington.jpg' },
   ];
 
+  let idTimeout;
+
   let [index, setIndex] = useState(0);
 
   useEffect(() => {
-    setTimeout(() => {
+    idTimeout = setTimeout(() => {
       setIndex(index == 8 ? 0 : index + 4);
     }, 3000);
   }, [index]);
 
+  function arrow(direction) {
+    clearTimeout(idTimeout);
+
+    index = direction == 'R' ? index - 4 : index + 4;
+    index = index < 0 ? 8 : index > 8 ? 0 : index;
+
+    setIndex(index);
+  }
+
   return (
     <div className="mt-5">
       <div className="container-sm mt-2 d-flex flex-row justify-content-between align-items-center">
-        <i className="col-1 bi-chevron-left text-black-50 display-4"></i>
+        <i className="col-1 bi-chevron-left text-black-50 display-4" onClick={() => arrow('R')}></i>
         <div>
-          <div className="d-flex flex-row justify-content-center align-items-center">
+          <div className="d-flex flex-row justify-content-center align-items-center ">
             <div className="me-5 col-5 position-relative">
-              <h6 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index].title}</h6>
-              <img className="object-fit-cover rounded" width="300px" height="200px" src={arrayImages[index].src} alt="Carrousel" />
+              <h4 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index].title}</h4>
+              <img className="object-fit-cover rounded shadow" width="300px" height="200px" src={arrayImages[index].src} alt="Carrousel" />
             </div>
             <div className="col-5 position-relative">
-              <h6 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index + 1].title}</h6>
-              <img className="object-fit-cover rounded" width="300px" height="200px" src={arrayImages[index + 1].src} alt="Carrousel" />
+              <h4 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index + 1].title}</h4>
+              <img className="object-fit-cover rounded shadow" width="300px" height="200px" src={arrayImages[index + 1].src} alt="Carrousel" />
             </div>
           </div>
           <div className="mt-3 d-flex flex-row justify-content-center align-items-center">
             <div className="me-5 col-5 position-relative">
-              <h6 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index + 2].title}</h6>
-              <img className="object-fit-cover rounded" width="300px" height="200px" src={arrayImages[index + 2].src} alt="Carrousel" />
+              <h4 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index + 2].title}</h4>
+              <img className="object-fit-cover rounded shadow" width="300px" height="200px" src={arrayImages[index + 2].src} alt="Carrousel" />
             </div>
             <div className="col-5 position-relative">
-              <h6 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index + 3].title}</h6>
-              <img className="object-fit-cover rounded" width="300px" height="200px" src={arrayImages[index + 3].src} alt="Carrousel" />
+              <h4 className="pb-3 position-absolute bottom-0 start-50 translate-middle-x text-white">{arrayImages[index + 3].title}</h4>
+              <img className="object-fit-cover rounded shadow" width="300px" height="200px" src={arrayImages[index + 3].src} alt="Carrousel" />
             </div>
           </div>
         </div>
-        <i className="col-1 bi-chevron-right text-black-50 display-4"></i>
+        <i className="col-1 bi-chevron-right text-black-50 display-4" onClick={() => arrow('L')}></i>
       </div>
     </div>
   );

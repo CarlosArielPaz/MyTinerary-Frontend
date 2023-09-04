@@ -5,7 +5,7 @@ import './style.css';
 export default function Header() {
   return (
     <>
-      <header className="sticky-top">
+      <header>
         <div className="container-sm d-flex flex-column align-items-center flex-xl-row justify-content-xl-between">
           <h1>MyTinerary</h1>
 
