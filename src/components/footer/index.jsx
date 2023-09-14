@@ -4,7 +4,7 @@ import './style.css';
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="container-sm d-flex flex-column align-items-center gap-4 flex-sm-row justify-content-sm-between">
+      <div className="mb-5 container-sm d-flex flex-column align-items-center gap-4 flex-sm-row justify-content-sm-between">
         <div className="d-flex flex-row gap-2 gap-sm-4">
           <a href="https://www.instagram.com" target="_blank">
             <i className="bi-instagram footer-icon"></i>
