@@ -8,9 +8,6 @@ import Footer from '../components/footer';
 export default function Layout() {
   // Outlet
   const pathname = useOutlet().props.children.props.match.pathnameBase;
-  //console.log(useOutlet(this));
-  console.log(pathname);
-
   // Router
   const navigate = useNavigate();
 
@@ -24,16 +21,12 @@ export default function Layout() {
 
   // Reload Redux
   if (!userStore && userLocalStorage) {
-    console.log('RECARGA');
-
     // Redux ➜ Dispatch (load)
     dispatch(userActions.userLoad(userLocalStorage));
   }
 
   // Protected routes
   if ((pathname == '/signup' || pathname == '/signin') && localStorage.getItem('user')) {
-    console.log('NAVIGATE');
-
     // Navigate
     return navigate('/');
   }

@@ -16,20 +16,20 @@ export default function Header() {
 
   // Handle ➜ Sign Out
   const handleSignOut = () => {
-    // Local Storage ➜ Item (remove)
+    // Local Storage ➜ Item ➜ User (remove)
     localStorage.removeItem('user');
 
-    // Redux ➜ Dispatch (remove)
+    // Redux ➜ Dispatch ➜ User (remove)
     dispatch(userActions.userRemove());
-
-    // Navigate
-    navigate('/');
 
     // Modal
     Swal.fire({
       icon: 'success',
-      title: 'Sign out',
+      title: `Sign out ${userStore.name}`,
     });
+
+    // Navigate
+    navigate('/');
   };
 
   return (
@@ -40,30 +40,30 @@ export default function Header() {
 
           <nav className="mt-4 d-flex flex-row flex-wrap justify-content-center gap-2">
             <Link to="/">
-              <button className="px-4 py-2 btn fs-4" type="button">
+              <button className="px-4 py-2 btn fs-5" type="button">
                 Home
               </button>
             </Link>
             <Link to="/cities">
-              <button className="px-4 py-2 btn fs-4" type="button">
+              <button className="px-4 py-2 btn fs-5" type="button">
                 Cities
               </button>
             </Link>
             {userStore ? (
               <>
-                <button className="px-4 py-2 btn btn-primary fs-4" type="button" onClick={handleSignOut}>
+                <button className="px-4 py-2 btn btn-primary fs-5" type="button" onClick={handleSignOut}>
                   <i class="me-3 bi bi-person-x-fill"></i>Sign out {userStore.name}
                 </button>
               </>
             ) : (
               <>
                 <Link to="/signup">
-                  <button className="px-4 py-2 btn btn-primary fs-4" type="button">
+                  <button className="px-4 py-2 btn btn-primary fs-5" type="button">
                     <i class="me-3 bi bi-person-plus-fill"></i>Sign up
                   </button>
                 </Link>
                 <Link to="/signin">
-                  <button className="px-4 py-2 btn btn-primary fs-4" type="button">
+                  <button className="px-4 py-2 btn btn-primary fs-5" type="button">
                     <i class="me-3 bi bi-person-fill"></i>Sign in
                   </button>
                 </Link>

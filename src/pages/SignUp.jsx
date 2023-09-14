@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Form from 'react-bootstrap/Form';
@@ -25,11 +27,11 @@ export default function SignUp() {
   // Redux
   const dispatch = useDispatch();
 
-  // Handle ➜ Form (submit)
-  const handleSubmit = (event) => {
+  // Sign Up ➜ Form
+  const signUpForm = (event) => {
     event.preventDefault();
 
-    // Form (value)
+    // Data
     const name = nameRef.current.value;
     const surname = surnameRef.current.value;
     const email = emailRef.current.value;
@@ -37,16 +39,40 @@ export default function SignUp() {
     const image = imageRef.current.value;
     const country = countryRef.current.value;
 
-    // Form (verify)
+    // Sign Up
+    signUp({ name, surname, email, password, image, country });
+  };
 
+  // Sign Up ➜ Google
+  const signUpGoogle = (credential) => {
+    // Google ➜ Token
+    const token = credential;
+
+    // Google ➜ Token ➜ Payload
+    const payload = jwt_decode(token);
+
+    // Data
+    const name = payload.given_name;
+    const surname = payload.family_name;
+    const email = payload.email;
+    const password = payload.sub;
+    const image = payload.picture;
+    const country = '';
+
+    // Sign Up
+    signUp({ name, surname, email, password, image, country });
+  };
+
+  // Sign Up
+  const signUp = (data) => {
     // HTTP ➜ Request (post)
     axios
-      .post('http://localhost:5000/sign/up', { name, surname, email, password, image, country })
+      .post('http://localhost:5000/sign/up', data)
       .then((response) => {
-        // Local Storage ➜ Item ➜ user (save)
+        // Local Storage ➜ Item ➜ User (save)
         localStorage.setItem('user', JSON.stringify(response.data));
 
-        // Redux ➜ Dispatch (load)
+        // Redux ➜ Dispatch ➜ User (load)
         dispatch(userActions.userLoad(response.data));
 
         // Toast
@@ -84,7 +110,7 @@ export default function SignUp() {
   return (
     <div className="my-5 w-50 container d-flex flex-column justify-content-center">
       <h2 className="mb-4 w-100 text-center text-primary">Sign up</h2>
-      <Form className="p-5 border rounded shadow fs-5" onSubmit={handleSubmit}>
+      <Form className="p-5 border rounded shadow fs-5" onSubmit={signUpForm}>
         <Form.Group className="mb-3">
           <Form.Label>First name</Form.Label>
           <Form.Control className="fs-4" type="text" required ref={nameRef} />
@@ -114,9 +140,18 @@ export default function SignUp() {
             ))}
           </Form.Select>
         </Form.Group>
-        <button className="mt-3 px-4 py-2 btn btn-primary fs-4" type="submit">
+        <button className="mt-3 mb-5 px-4 py-2 btn btn-primary fs-5" type="submit">
           <i class="me-3 bi bi-person-check-fill"></i>Send
         </button>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            // Sign Up ➜ Google
+            signUpGoogle(credentialResponse.credential);
+          }}
+          onError={() => {
+            console.log('Google: Login failed');
+          }}
+        />
       </Form>
     </div>
   );

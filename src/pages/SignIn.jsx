@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Form from 'react-bootstrap/Form';
@@ -20,24 +22,45 @@ export default function SignIn() {
   // Redux
   const dispatch = useDispatch();
 
-  // Handle ➜ Form (submit)
-  const handleSubmit = (event) => {
+  // Sign In ➜ Form
+  const signInForm = (event) => {
     event.preventDefault();
 
-    // Form (value)
+    // Data
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    // Form (verify)
+    // Sign In
+    signIn({ email, password });
+  };
 
+  // Sign In ➜ Google
+  const signInGoogle = (credential) => {
+    // Google ➜ Token
+    const token = credential;
+
+    // Google ➜ Token ➜ Payload
+    const payload = jwt_decode(token);
+
+    // Data
+    const email = payload.email;
+    const password = payload.sub;
+
+    // Sign In
+    signIn({ email, password });
+  };
+
+  // Sign In
+  const signIn = (data) => {
+    console.log(data);
     // HTTP ➜ Request (post)
     axios
-      .post('http://localhost:5000/sign/in', { email, password })
+      .post('http://localhost:5000/sign/in', data)
       .then((response) => {
-        // Local Storage ➜ Item ➜ user (save)
+        // Local Storage ➜ Item ➜ User (save)
         localStorage.setItem('user', JSON.stringify(response.data));
 
-        // Redux ➜ Dispatch (load)
+        // Redux ➜ Dispatch ➜ User (load)
         dispatch(userActions.userLoad(response.data));
 
         // Toast
@@ -75,7 +98,7 @@ export default function SignIn() {
   return (
     <div className="my-5 w-50 container d-flex flex-column justify-content-center">
       <h2 className="mb-4 w-100 text-center text-primary">Sign in</h2>
-      <Form className="p-5 border rounded shadow fs-5" onSubmit={handleSubmit}>
+      <Form className="p-5 border rounded shadow fs-5" onSubmit={signInForm}>
         <Form.Group className="mb-3">
           <Form.Label>Email address</Form.Label>
           <Form.Control className="fs-4" type="email" required ref={emailRef} />
@@ -84,9 +107,18 @@ export default function SignIn() {
           <Form.Label>Password</Form.Label>
           <Form.Control className="fs-4" type="password" required ref={passwordRef} />
         </Form.Group>
-        <button className="mt-3 px-4 py-2 btn btn-primary fs-4" type="submit">
+        <button className="mt-3 mb-5 px-4 py-2 btn btn-primary fs-5" type="submit">
           <i class="me-3 bi bi-person-check-fill"></i>Access
         </button>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            // Sign In ➜ Google
+            signInGoogle(credentialResponse.credential);
+          }}
+          onError={() => {
+            console.log('Google: Login failed');
+          }}
+        />
       </Form>
     </div>
   );
